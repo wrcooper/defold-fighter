@@ -77,8 +77,12 @@ launch the engine with `--config=fighter.autoplay=1`.
 | Hitbox viewer on/off | H | |
 | Volume (when paused) | Left / Right | D-pad left / right |
 
-Volume can also be set from the VOLUME row of the main menu. It goes from OFF to 100% in 10% steps (the default is
-80%) and is remembered between sessions.
+Volume can also be set from the VOLUME row of the main menu. It goes from OFF to 100% in 10% steps and is
+remembered between sessions (in a save file on desktop, in browser storage on the web).
+
+The default is **80%**, used on first launch or when no saved setting exists. To change it, edit `M.volume = 8` in
+`main/settings.lua` (a 0–10 scale, so `10` = 100%). Volume sets the gain of Defold's `master` sound group, which is on
+a decibel scale: 100% is full volume and 80% is about 12 dB quieter.
 
 ### Moves
 
