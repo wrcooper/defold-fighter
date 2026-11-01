@@ -3,6 +3,8 @@
 A small 2D fighting game in the style of Street Fighter and Mortal Kombat. It's built with [Defold](https://defold.com) 1.14,
 with pixel art edited in [LibreSprite](https://libresprite.github.io), and it runs in the browser (HTML5 / WebAssembly).
 
+**[▶ Play it in your browser](https://wrcooper.github.io/defold-fighter/)** (keyboard; click the game once to give it focus)
+
 ![Kenji throws a fireball at Vera](Docs/images/fight.png)
 
 The game was built by an AI coding agent (Claude Code) as part of AI annotation work. Every place where the AI's work
@@ -27,7 +29,14 @@ was wrong, incomplete, or needed correcting is recorded in the [AI Failure Log](
 
 ## Play it
 
-### In the browser (HTML5)
+### Online
+
+The latest version is at **https://wrcooper.github.io/defold-fighter/**. Every push to `main` rebuilds it:
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml) downloads Defold 1.14.0's command-line builder (Bob),
+bundles the HTML5 build, and publishes it to GitHub Pages. When upgrading Defold, update `DEFOLD_SHA1` in that file
+to the new release's `sha1` from https://d.defold.com/stable/info.json.
+
+### Build the browser version yourself
 
 You need [Defold](https://defold.com/download/) 1.14 installed, plus Python 3 to serve the page locally.
 
@@ -115,6 +124,7 @@ assets/      exported PNG frames, game.atlas, fonts, sounds
 tools/       build script, art pipeline and asset generators (Python 3 + Pillow)
 tests/       headless CPU-vs-CPU simulation
 Docs/        AI Failure Log and README screenshots
+.github/     GitHub Pages deploy workflow
 ```
 
 ## Testing the game logic
