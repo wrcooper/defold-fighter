@@ -7,7 +7,7 @@ Project: 2D fighting game in Defold 1.14 (Lua), art in LibreSprite, HTML5 target
 
 ## Summary
 
-Total entries: 17
+Total entries: 18
 
 | Area | Count |
 |---|---|
@@ -22,7 +22,7 @@ Total entries: 17
 | rendering | 3 |
 | build/HTML5 | 3 |
 | Lua logic | 3 |
-| other | 6 |
+| other | 7 |
 
 | Failure type | Count |
 |---|---|
@@ -33,13 +33,13 @@ Total entries: 17
 | outdated API | 1 |
 | other-engine habit | 0 |
 | logic error | 2 |
-| incomplete | 1 |
+| incomplete | 2 |
 
 | Severity | Count |
 |---|---|
 | blocker | 1 |
 | needed fix | 6 |
-| near miss | 10 |
+| near miss | 11 |
 
 Entries F-1 to F-15 were backfilled on 2026-10-31 from the first build session, before this log existed.
 All 15 were found by the agent itself (headless simulation, engine logs, screenshots), not by the user.
@@ -348,3 +348,20 @@ All 15 were found by the agent itself (headless simulation, engine logs, screens
 - **Fix:** Moved to `config.HEIGHT - 120`. After F-16 the key became GUI text nodes at y = 595 in the 1280×720 GUI scene, which also has its origin at the bottom-left.
 - **Severity:** near miss
 - **Eval potential:** Ask where `msg.post("@render:", "draw_debug_text", { position = vmath.vector3(20, 140, 0), ... })` appears on a 1280×720 Defold screen. A correct answer says near the bottom-left, because y counts up from the bottom.
+
+### F-18: Documented test command used a `lua` executable that isn't installed
+- **Date:** 2026-11-01
+- **Agent/model:** Claude Code (Claude Opus 5.5)
+- **Area:** other (documentation / tooling)
+- **Request:** "Let's get this on GitHub. Upload the failure log as well and add an adequate README."
+- **Expected:** The commands in README.md and CLAUDE.md work as written on the dev machine, or say what they need.
+- **What the AI did:** The earlier README and the CLAUDE.md written for future sessions both said to run `lua tests/sim.lua 20`. There's no `lua` on PATH on this machine; the simulation had actually been run with the `luajit-64.exe` from the Defold editor jar. Running the documented command gives `lua: command not found`. The CLAUDE.md version had already been pushed in the first GitHub commit.
+  ```
+  Run `lua tests/sim.lua 20` after changing frame data or the AI.
+  ```
+- **Failure type:** incomplete
+- **Detected by:** agent self-check (re-running the test before writing the GitHub README)
+- **Root cause:** It wrote the generic command from memory instead of the one it had actually used.
+- **Fix:** The README now says any Lua 5.1/LuaJIT works and explains how to get `luajit-64.exe` out of the Defold editor jar. CLAUDE.md now gives that path. Re-ran `luajit-64.exe tests/sim.lua 4`; all matches finished without errors.
+- **Severity:** near miss
+- **Eval potential:** Give a project's notes and a shell transcript, and ask the model to document how to run the tests. A correct answer uses the command that actually ran in the transcript and states its prerequisites.

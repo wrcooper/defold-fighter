@@ -4,7 +4,9 @@ A 2D fighting game in Defold 1.14 (Lua), with art in LibreSprite. The target is 
 README.md covers the layout, controls, build and art pipeline.
 
 ## Working notes
-- Game logic lives in `modules/` and is plain Lua with no Defold API calls. Run `lua tests/sim.lua 20` after changing frame data or the AI.
+- Game logic lives in `modules/` and is plain Lua with no Defold API calls. Run `tests/sim.lua` after changing frame data or the AI.
+  There's no `lua` on PATH on the dev machine: use the LuaJIT inside the Defold editor jar (`libexec/x86_64-win32/luajit-64.exe`),
+  e.g. `luajit-64.exe tests/sim.lua 20` from the project root (see F-18).
 - Command-line builds use Bob from the editor jar. `tools/build_web.bat` does the HTML5 bundle.
   When the engine is running, build to a separate `--output` folder, because it locks `game.arcd`.
 - Write Defold resource files and any text with escape sequences using the file tools, not shell heredocs or printf (see F-5 and F-13 in the log).
