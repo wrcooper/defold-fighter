@@ -1,12 +1,13 @@
 local characters = require "modules.characters"
 local state = require "modules.state"
+local settings = require "main.settings"
 
 local MODES = { { id = "1p", label = "1P VS CPU" }, { id = "cpu", label = "CPU VS CPU" } }
 local OPPONENTS = { "kenji", "vera", "random" }
 local LEVELS = { "easy", "normal", "hard" }
 
-local ROWS = { "row_mode", "row_p1", "row_p2", "row_level", "row_start", "row_quit" }
-local ROW_START, ROW_QUIT = 5, 6
+local ROWS = { "row_mode", "row_p1", "row_p2", "row_level", "row_volume", "row_start", "row_quit" }
+local ROW_VOLUME, ROW_START, ROW_QUIT = 5, 6, 7
 
 local GOLD = vmath.vector4(1, 0.82, 0.3, 1)
 local WHITE = vmath.vector4(1, 1, 1, 1)
@@ -30,6 +31,7 @@ local function refresh(self)
 		(cpu_vs_cpu and "CPU 1       " or "FIGHTER     ") .. name_of(characters.list[self.p1]),
 		(cpu_vs_cpu and "CPU 2       " or "OPPONENT    ") .. name_of(OPPONENTS[self.p2]),
 		"CPU LEVEL   " .. LEVELS[self.level]:upper(),
+		"VOLUME      " .. settings.volume_label(),
 		"FIGHT!",
 		"QUIT",
 	}
@@ -97,6 +99,9 @@ local function change(self, dir)
 		self.p2 = (self.p2 - 1 + dir) % #OPPONENTS + 1
 	elseif r == 4 then
 		self.level = (self.level - 1 + dir) % #LEVELS + 1
+	elseif r == ROW_VOLUME then
+		-- clamps at 0 and max instead of wrapping; the sound plays at the new volume
+		if not settings.change_volume(dir) then return end
 	else
 		return
 	end

@@ -12,7 +12,7 @@ end
 
 function init(self)
 	self.n = {}
-	for _, id in ipairs({ "timer", "announce", "sub", "pause_bg", "pause_moves", "pause_moves_title" }) do
+	for _, id in ipairs({ "timer", "announce", "sub", "pause_bg", "pause_moves", "pause_moves_title", "pause_volume" }) do
 		self.n[id] = gui.get_node(id)
 	end
 	self.p = {}
@@ -115,6 +115,8 @@ function on_message(self, message_id, message)
 		gui.animate(n, "color.w", 0, gui.EASING_INQUAD, 0.6, 0.9)
 	elseif message_id == hash("pause") then
 		gui.set_enabled(self.n.pause_bg, message.on)
+	elseif message_id == hash("volume_label") then
+		gui.set_text(self.n.pause_volume, "[Left/Right] Volume: " .. message.label)
 	elseif message_id == hash("boxes") then
 		show_box_key(self, message.on, message.key)
 	end

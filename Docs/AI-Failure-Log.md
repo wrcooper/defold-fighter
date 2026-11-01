@@ -7,7 +7,7 @@ Project: 2D fighting game in Defold 1.14 (Lua), art in LibreSprite, HTML5 target
 
 ## Summary
 
-Total entries: 18
+Total entries: 19
 
 | Area | Count |
 |---|---|
@@ -16,7 +16,7 @@ Total entries: 18
 | animation | 0 |
 | input | 0 |
 | GUI | 2 |
-| messaging | 0 |
+| messaging | 1 |
 | factories/proxies | 0 |
 | physics/timing | 0 |
 | rendering | 3 |
@@ -27,7 +27,7 @@ Total entries: 18
 | Failure type | Count |
 |---|---|
 | build error | 3 |
-| runtime error | 5 |
+| runtime error | 6 |
 | wrong behavior | 5 |
 | hallucinated API | 0 |
 | outdated API | 1 |
@@ -37,7 +37,7 @@ Total entries: 18
 
 | Severity | Count |
 |---|---|
-| blocker | 1 |
+| blocker | 2 |
 | needed fix | 6 |
 | near miss | 11 |
 
@@ -365,3 +365,24 @@ All 15 were found by the agent itself (headless simulation, engine logs, screens
 - **Fix:** The README now says any Lua 5.1/LuaJIT works and explains how to get `luajit-64.exe` out of the Defold editor jar. CLAUDE.md now gives that path. Re-ran `luajit-64.exe tests/sim.lua 4`; all matches finished without errors.
 - **Severity:** near miss
 - **Eval potential:** Give a project's notes and a shell transcript, and ask the model to document how to run the tests. A correct answer uses the command that actually ran in the transcript and states its prerequisites.
+
+### F-19: Posting a custom message named "volume" crashed the engine
+- **Date:** 2026-11-01
+- **Agent/model:** Claude Code (Claude Opus 5.5)
+- **Area:** messaging
+- **Request:** "Let's just add an audio volume control to finish up."
+- **Expected:** Starting a fight shows the current volume on the pause screen; the game keeps running.
+- **What the AI did:** Added a HUD update message called `"volume"`, posted from `fight.script` when a match starts and when the volume changes. As soon as the fight scene loaded, the engine died with a native crash (`ERROR:CRASH: CALL STACK:` with frames in `vsnprintf`/`printf`), with no Lua error first. The menu part of the feature worked.
+  ```lua
+  -- fight.script, new_match()
+  msg.post("#hud", "volume", { label = settings.volume_label() })
+  -- hud.gui_script
+  elseif message_id == hash("volume") then
+  ```
+  The first diagnosis was a guess: that the "50%" label reached an engine log call as a format string. Removing the `%` still crashed, so that guess was wrong.
+- **Failure type:** runtime error
+- **Detected by:** engine/build error (native crash at fight start), then agent self-check (bisecting)
+- **Root cause:** Bisected with `git stash` and rebuilds. The crash needs only that `msg.post` line: it still crashes with the HUD script back at its committed version (so nothing handles the message), and it stops when the line is removed or the message is renamed to `"volume_label"` with the same payload. Why the id `"volume"` crashes is (uncertain): it isn't documented as a built-in message in the 1.14 docs, and the only bare `volume` string in `dmengine.exe` belongs to glTF material data. It may be an engine bug or an undocumented internal message name. Not tested: other message ids, or other payloads with `"volume"`.
+- **Fix:** Renamed the message to `"volume_label"` in both scripts, with a comment at the post site. The engine runs; the pause screen shows and changes the volume; verified on the desktop debug engine and in the HTML5 build.
+- **Severity:** blocker (no fight could start)
+- **Eval potential:** Give a Defold project whose engine dies with a native crash right after a change that added several things, and ask for a diagnosis plan. A correct answer bisects the change instead of guessing from the stack, and doesn't stop at the first plausible theory.

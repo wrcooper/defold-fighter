@@ -315,7 +315,7 @@ nodes {
 nodes {
   position {
     x: 640.0
-    y: 470.0
+    y: 480.0
     z: 0.0
   }
   scale {
@@ -359,7 +359,7 @@ nodes {
 nodes {
   position {
     x: 640.0
-    y: 420.0
+    y: 435.0
     z: 0.0
   }
   scale {
@@ -403,7 +403,7 @@ nodes {
 nodes {
   position {
     x: 640.0
-    y: 370.0
+    y: 390.0
     z: 0.0
   }
   scale {
@@ -447,7 +447,7 @@ nodes {
 nodes {
   position {
     x: 640.0
-    y: 320.0
+    y: 345.0
     z: 0.0
   }
   scale {
@@ -491,7 +491,51 @@ nodes {
 nodes {
   position {
     x: 640.0
-    y: 250.0
+    y: 300.0
+    z: 0.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+  size {
+    x: 600.0
+    y: 40.0
+    z: 0.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: "row_volume"
+  font: "medium"
+  outline {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  shadow {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  line_break: false
+  outline_alpha: 1.0
+  shadow_alpha: 0.0
+  id: "row_volume"
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  inherit_alpha: true
+  alpha: 1.0
+}
+nodes {
+  position {
+    x: 640.0
+    y: 235.0
     z: 0.0
   }
   scale {
@@ -535,7 +579,7 @@ nodes {
 nodes {
   position {
     x: 640.0
-    y: 200.0
+    y: 190.0
     z: 0.0
   }
   scale {

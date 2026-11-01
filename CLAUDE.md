@@ -13,6 +13,8 @@ README.md covers the layout, controls, build and art pipeline.
 - Debug drawing (`draw_line` / `draw_debug_text` messages to `@render:`) shows only on the debug engine, not in release or HTML5 builds (see F-16).
   Test visual features on a release build before calling them done.
 - Defold screen and GUI coordinates start at the bottom-left corner, with y pointing up (see F-17).
+- Don't name a custom message `"volume"`: posting it crashes Defold 1.14 natively, with no Lua error (see F-19).
+  If the engine dies with an `ERROR:CRASH` stack, bisect the change rather than guessing.
 - If you're unsure whether a Defold API exists, check the docs bundled in the editor jar (`doc/*.sdoc`) or defold.com/ref. Bob builds don't catch a wrong Lua API name (see F-8).
 
 ## AI Failure Log (standing task for this whole project)

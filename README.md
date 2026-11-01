@@ -22,6 +22,7 @@ was wrong, incomplete, or needed correcting is recorded in the [AI Failure Log](
 - **Main menu:** 1P vs CPU or CPU vs CPU, fighter and opponent select (including Random), CPU level.
 - **Pause screen** with the move list for your fighter.
 - **Hitbox viewer** for training: press **H** to see hurt, hit and push boxes.
+- **Volume control** in the main menu and on the pause screen. It's saved between sessions, in the browser too.
 
 | Main menu | Pause screen | Hitbox viewer |
 |---|---|---|
@@ -74,6 +75,10 @@ launch the engine with `--config=fighter.autoplay=1`.
 | Pause / resume | Esc | Start |
 | Quit to menu (when paused) | Q | Back |
 | Hitbox viewer on/off | H | |
+| Volume (when paused) | Left / Right | D-pad left / right |
+
+Volume can also be set from the VOLUME row of the main menu. It goes from OFF to 100% in 10% steps (the default is
+80%) and is remembered between sessions.
 
 ### Moves
 
@@ -110,7 +115,8 @@ Each move's frame list in `modules/characters.lua` defines both its animation an
 recovery frames), so art and gameplay stay in sync.
 
 ```
-main/        bootstrap collection + loader.script (switches menu/fight via collection proxies)
+main/        bootstrap collection + loader.script (switches menu/fight via collection proxies),
+             settings.lua (saved volume)
 menu/        main menu GUI
 fight/       fight collection, fight.script (Defold glue), hud.gui, hitbox sprite
 modules/     pure-Lua game logic
